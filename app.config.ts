@@ -11,7 +11,7 @@ export default (): ExpoConfig => {
         icon: './assets/images/icon.png',
         scheme: 'myapp',
         userInterfaceStyle: 'automatic',
-        newArchEnabled: true,
+        newArchEnabled: false,
         ios: {
             bundleIdentifier: pkgId,
             supportsTablet: true,
@@ -38,6 +38,7 @@ export default (): ExpoConfig => {
         },
         plugins: [
             'expo-router',
+            'expo-sqlite',
             [
                 'expo-splash-screen',
                 {

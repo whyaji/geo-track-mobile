@@ -1,13 +1,11 @@
-import { MMKV } from 'react-native-mmkv';
-import type { Storage } from 'redux-persist';
+import type { Storage as StorageType } from 'redux-persist';
 import log from '../config/logger.config';
+import Storage from 'expo-sqlite/kv-store';
 
-export const storage = new MMKV();
-
-export const reduxStorage: Storage = {
+export const reduxStorage: StorageType = {
     setItem: async (key, value) => {
         try {
-            storage.set(key, value);
+            await Storage.setItem(key, value);
             return Promise.resolve(true);
         } catch (err) {
             log['Error']('Error while setting item in storage', err);
@@ -16,7 +14,7 @@ export const reduxStorage: Storage = {
     },
     getItem: async (key) => {
         try {
-            const value = storage.getString(key);
+            const value = await Storage.getItem(key);
             return Promise.resolve(value);
         } catch (err) {
             log['Error']('Error while getting item from storage', err);
@@ -26,7 +24,7 @@ export const reduxStorage: Storage = {
     removeItem: async (key) => {
         try {
             log['Info'](`Removing ${key}`);
-            storage.delete(key);
+            await Storage.removeItem(key);
             return Promise.resolve();
         } catch (err) {
             log['Error']('Error while removing item from storage', err);
